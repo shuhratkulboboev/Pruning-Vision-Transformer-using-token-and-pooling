@@ -12,24 +12,26 @@ All explanation regarding this method mentioned inmy thesis work which I attache
 2. Data preparation:
 Download and extract ImageNet train and val images from http://image-net.org/. The directory structure is the standard layout for the torchvision datasets.ImageFolder, and the training and validation data is expected to be in the train/ folder and val folder respectively:
    ```bash
-/path/to/imagenet/
-  train/
-    class1/
-      img1.jpeg
-    class2/
-      img2.jpeg
-  val/
-    class1/
-      img3.jpeg
-    class2/
-      img4.jpeg
+   /path/to/imagenet/
+   train/
+     class1/
+       img1.jpeg
+     class2/
+       img2.jpeg
+   val/
+     class1/
+       img3.jpeg
+     class2/
+       img4.jpeg
 
 3. Evaluation:
 To evaluate PPT on a pre-trained DeiT-small (without fine-tuning) on ImageNet val with a single GPU run:
    ```bash
-python main.py --eval --resume https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth --model deit_small_patch16_224 --data-path /path/to/imagenet --batch_size 256 --r_tokens 50 --pp_loc_list 3 6 9 --threshold 7e-5
+   python main.py --eval --resume https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth --model deit_small_patch16_224 --data-path /path/to/imagenet --batch_size 256 --r_tokens 50 -- 
+   pp_loc_list 3 6 9 --threshold 7e-5
 
 4. Training :
 To fine-tuning DeiT-small on ImageNet on a single node with 1 gpus for 50 epochs run:
    ```bash
-python -m torch.distributed.launch  --nproc_per_node=1 --use_env main.py --resume https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth --model deit_small_patch16_224 --batch_size 256 --data-path /path/to/imagenet --epochs 50 --output_dir outputs/PPT_DeiT-S_thr-6e-5_r-50_lr-1e-5 --lr 1e-5 --r_tokens 50 --threshold 6e-5 --pp_loc_list 3 6 9
+   python -m torch.distributed.launch  --nproc_per_node=1 --use_env main.py --resume https://dl.fbaipublicfiles.com/deit/deit_small_patch16_224-cd65a155.pth --model deit_small_patch16_224 --batch_size 256 
+   --data-path /path/to/imagenet --epochs 50 --output_dir outputs/PPT_DeiT-S_thr-6e-5_r-50_lr-1e-5 --lr 1e-5 --r_tokens 50 --threshold 6e-5 --pp_loc_list 3 6 9
